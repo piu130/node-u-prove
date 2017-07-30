@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "standard",
+    "standard-jsdoc"
+  ],
+  "env": {
+    "node" : true,
+    "mocha": true
+  }
+}
