@@ -39,6 +39,12 @@ describe('UProveHash', function () {
       hash.updateListOfBytes([0x01, 0x00, 0x00])
       expect(hash._createBuffer().toString('hex')).to.equal('00000003010000')
     })
+
+    it('a list of octet strings', function () {
+      const hash = new UProveHash('sha256')
+      hash.updateListOfOctetStrings(['0102030405', '0102030405'])
+      expect(hash._createBuffer().toString('hex')).to.equal('00000002000000050102030405000000050102030405')
+    })
   })
 
   describe('should digest', function () {
