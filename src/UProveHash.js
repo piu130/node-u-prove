@@ -110,7 +110,7 @@ class UProveHash {
    * @private
    */
   _createBuffer () {
-    const buff = Buffer.alloc(this._size)
+    const buff = Buffer.allocUnsafe(this._size)
     this._steps.reduce((accumulator, func) => func(buff, accumulator))
     return buff
   }
