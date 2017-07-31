@@ -57,16 +57,13 @@ class UProveHash {
 
   /**
    * Updates a subgroup construction.
-   * @param {Object} group - Subgroup construction.
-   * @param {string} group.p - Field order.
-   * @param {string} group.q - Prime order.
-   * @param {string} group.g - Generator.
+   * @param {Subgroup} group - Subgroup construction.
    * @returns {void} Nothing.
    */
   updateSubGroup (group) {
-    this.updateOctetString(group.p)
-    this.updateOctetString(group.q)
-    this.updateOctetString(group.g)
+    this.updateOctetString(group.p.toString(16))
+    this.updateOctetString(group.q.toString(16))
+    this.updateOctetString(group.g.toString(16))
   }
 
   // @todo
