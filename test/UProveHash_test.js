@@ -3,50 +3,6 @@ const UProveHash = require('../src/UProveHash')
 const subGroup = require('../src/SubgroupL2048N256')
 
 describe('UProveHash', function () {
-  describe('should update', function () {
-    it('a byte', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateByte(0x01)
-      expect(hash._createBuffer().toString('hex')).to.equal('01')
-    })
-
-    it('an unsigned integer 32', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateUInt32(12)
-      expect(hash._createBuffer().toString('hex')).to.equal('0000000c')
-    })
-
-    it('null', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateNull()
-      expect(hash._createBuffer().toString('hex')).to.equal('00000000')
-    })
-
-    it('an octet string', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateOctetString('0102030405')
-      expect(hash._createBuffer().toString('hex')).to.equal('000000050102030405')
-    })
-
-    it('a list of booleans', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateListOfBooleans([true, false, false])
-      expect(hash._createBuffer().toString('hex')).to.equal('00000003010000')
-    })
-
-    it('a list of bytes', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateListOfBytes([0x01, 0x00, 0x00])
-      expect(hash._createBuffer().toString('hex')).to.equal('00000003010000')
-    })
-
-    it('a list of octet strings', function () {
-      const hash = new UProveHash('sha256')
-      hash.updateListOfOctetStrings(['0102030405', '0102030405'])
-      expect(hash._createBuffer().toString('hex')).to.equal('00000002000000050102030405000000050102030405')
-    })
-  })
-
   describe('should digest', function () {
     it('a byte', function () {
       const hash = new UProveHash('sha256')
