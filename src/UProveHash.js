@@ -9,30 +9,29 @@ class UProveHash {
    * @param {string} [algorithm='sha256'] - See crypto.createHash from NodeJS.
    */
   constructor (algorithm = 'sha256') {
-    this._algorithm = algorithm
-    this._size = 0
-    // set first element to 0 for reduce logic
-    this._steps = [0]
+    this._hash = crypto.createHash(algorithm)
+    this._len4 = Buffer.allocUnsafe(4)
+    this._len1 = this._len4.slice(0, 1)
   }
 
   /**
    * Updates a byte.
-   * @param {number} byte - Byte to update.
+   * @param {number} byte - Byte.
    * @returns {void} Nothing.
    */
   updateByte (byte) {
-    this._size += 1
-    this._steps.push((buff, offset) => buff.writeUInt8(byte, offset))
+    this._len1.writeUInt8(byte)
+    this._hash.update(this._len1)
   }
 
   /**
    * Updates a number.
-   * @param {number} number - Unsigned integer 32 to update.
+   * @param {number} number - Unsigned integer 32.
    * @returns {void} Nothing.
    */
   updateUInt32 (number) {
-    this._size += 4
-    this._steps.push((buff, offset) => buff.writeUInt32BE(number, offset))
+    this._len4.writeUInt32BE(number)
+    this._hash.update(this._len4)
   }
 
   /**
@@ -45,14 +44,12 @@ class UProveHash {
 
   /**
    * Updates an octet string.
-   * @param {string} octetString - Octet string to update.
+   * @param {string} octetString - Octet string.
    * @returns {void} Nothing.
    */
   updateOctetString (octetString) {
-    const length = Math.ceil(octetString.length / 2)
-    this._size += length
-    this.updateUInt32(length)
-    this._steps.push((buff, offset) => buff.write(octetString, offset, length, 'hex') + offset)
+    this.updateUInt32(Math.ceil(octetString.length / 2))
+    this._hash.update(Buffer.from(octetString, 'hex'))
   }
 
   /**
@@ -73,7 +70,7 @@ class UProveHash {
 
   /**
    * Updates a list of booleans.
-   * @param {Array<boolean>} list - List of booleans to update.
+   * @param {Array<boolean>} list - List of booleans.
    * @returns {void} Nothing.
    */
   updateListOfBooleans (list) {
@@ -83,7 +80,7 @@ class UProveHash {
 
   /**
    * Updates a list of bytes.
-   * @param {Array<number>} list - List of bytes to update.
+   * @param {Array<number>} list - List of bytes.
    * @returns {void} Nothing.
    */
   updateListOfBytes (list) {
@@ -93,7 +90,7 @@ class UProveHash {
 
   /**
    * Updates a list of octet strings.
-   * @param {Array<string>} list - List of octet strings to update.
+   * @param {Array<string>} list - List of octet strings.
    * @returns {void} Nothing.
    */
   updateListOfOctetStrings (list) {
@@ -102,14 +99,15 @@ class UProveHash {
   }
 
   /**
-   * Creates the buffer to hash.
-   * @returns {Buffer} Buffer to hash.
-   * @private
+   * Updates a list of big integers.
+   * @param {Array<BigInteger>} list - List of big integers.
+   * @returns {void} Nothing.
    */
-  _createBuffer () {
-    const buff = Buffer.allocUnsafe(this._size)
-    this._steps.reduce((accumulator, func) => func(buff, accumulator))
-    return buff
+  updateListOfBigIntegers (list) {
+    this.updateUInt32(list.length)
+    list
+      .map((currentValue) => currentValue.toString(16))
+      .forEach(this.updateOctetString, this)
   }
 
   /**
@@ -118,9 +116,7 @@ class UProveHash {
    * @returns {Buffer|string} Digest.
    */
   digest (encoding) {
-    const hash = crypto.createHash(this._algorithm)
-    hash.update(this._createBuffer())
-    return hash.digest(encoding)
+    return this._hash.digest(encoding)
   }
 }
 
