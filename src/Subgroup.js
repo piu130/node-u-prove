@@ -21,6 +21,12 @@ exports.create = (p, q, g) => ({
   g: new BigInteger(g, 16)
 })
 
+/**
+ * Checks if number is included in the group.
+ * @param {Subgroup} group - Group.
+ * @param {number} number - Number to check.
+ * @returns {boolean} True if included, otherwise false.
+ */
 const includes = exports.includes = (group, number) => number.compareTo(group.p) < 0 && number.modPow(group.q, group.p).equals(BigInteger.ONE)
 
 /**
