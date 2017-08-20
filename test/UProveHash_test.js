@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 const UProveHash = require('../src/UProveHash')
-const subGroup = require('../src/SubgroupL2048N256')
+const L2048N256 = require('../src/L2048N256')
 
 describe('UProveHash', function () {
   describe('should digest', function () {
@@ -24,7 +24,7 @@ describe('UProveHash', function () {
 
     it('a subgroup', function () {
       const hash = new UProveHash('sha256')
-      hash.updateSubGroup(subGroup)
+      hash.updateSubgroup(L2048N256.Gq)
       expect(hash.digest('hex')).to.equal('7b36c8a3cf1552077e1cacb365888d25c9dc54f3faed7aff9b11859aa8e4ba06')
     })
 

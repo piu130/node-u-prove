@@ -57,7 +57,7 @@ class UProveHash {
    * @param {Subgroup} group - Subgroup construction.
    * @returns {void} Nothing.
    */
-  updateSubGroup (group) {
+  updateSubgroup (group) {
     this.updateOctetString(group.p.toString(16))
     this.updateOctetString(group.q.toString(16))
     this.updateOctetString(group.g.toString(16))
