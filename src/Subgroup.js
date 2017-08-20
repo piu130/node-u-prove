@@ -1,58 +1,58 @@
 const {BigInteger} = require('jsbn')
 
 /**
- * Subgroup.
- * @typedef {Object} Subgroup.
- * @property {BigInteger} p - Field order.
- * @property {BigInteger} q - Prime order.
- * @property {BigInteger} g - Generator.
+ * Constructs a new subgroup.
  */
+class Subgroup {
+  /**
+   * Constructor.
+   * @param {string} p - Field order.
+   * @param {string} q - Prime order.
+   * @param {string} g - Generator.
+   */
+  constructor (p, q, g) {
+    this.p = new BigInteger(p, 16)
+    this._validateP()
+    this.q = new BigInteger(q, 16)
+    this._validateQ()
+    this.g = new BigInteger(g, 16)
+    this._validateG()
+  }
 
-/**
- * Creates a subgroup.
- * @param {string} p - Field order.
- * @param {string} q - Prime order.
- * @param {string} g - Generator.
- * @returns {Subgroup} Subgroup.
- */
-exports.create = (p, q, g) => ({
-  p: new BigInteger(p, 16),
-  q: new BigInteger(q, 16),
-  g: new BigInteger(g, 16)
-})
+  /**
+   * Checks if number is included in the group.
+   * @param {BigInteger} number - Number to check.
+   * @returns {boolean} True if included, otherwise false.
+   */
+  includes (number) {
+    return number.compareTo(this.p) < 0 && number.modPow(this.q, this.p).equals(BigInteger.ONE)
+  }
 
-/**
- * Checks if number is included in the group.
- * @param {Subgroup} group - Group.
- * @param {number} number - Number to check.
- * @returns {boolean} True if included, otherwise false.
- */
-const includes = exports.includes = (group, number) => number.compareTo(group.p) < 0 && number.modPow(group.q, group.p).equals(BigInteger.ONE)
+  /**
+   * Checks if p is prime.
+   * @returns {boolean} True if valid, otherwise false.
+   */
+  _validateP () {
+    if (!this.p.isProbablePrime()) throw new RangeError('p is not a prime.')
+  }
 
-/**
- * Checks if p is prime.
- * @param {Subgroup} group - Group.
- * @returns {boolean} True if valid, otherwise false.
- */
-const validateP = exports.validateP = (group) => group.p.isProbablePrime()
+  /**
+   * Checks if q is prime. And q divides p - 1.
+   * @returns {boolean} True if valid, otherwise false.
+   */
+  _validateQ () {
+    if (!this.q.isProbablePrime()) throw new RangeError('q is not a prime.')
+    if (!this.p.subtract(BigInteger.ONE).mod(this.q).equals(BigInteger.ZERO)) throw new RangeError('q does not divide p - 1.')
+  }
 
-/**
- * Checks if q is prime. And q divides p - 1.
- * @param {Subgroup} group - Group.
- * @returns {boolean} True if valid, otherwise false.
- */
-const validateQ = exports.validateQ = (group) => group.q.isProbablePrime() && group.p.subtract(BigInteger.ONE).mod(group.q).equals(BigInteger.ZERO)
+  /**
+   * Checks if g is element of Gq and g !== 1.
+   * @returns {boolean} True if valid, otherwise false.
+   */
+  _validateG () {
+    if (!this.includes(this.g)) throw new RangeError('g is not element of Gq.')
+    if (this.g.equals(BigInteger.ONE)) throw new RangeError('g must not be one.')
+  }
+}
 
-/**
- * Checks if g is element of Gq and g !== 1.
- * @param {Subgroup} group - Group.
- * @returns {boolean} True if valid, otherwise false.
- */
-const validateG = exports.validateG = (group) => includes(group, group.g) && !group.g.equals(BigInteger.ONE)
-
-/**
- * Validates p, q and g.
- * @param {Subgroup} group - Group.
- * @returns {boolean} True if valid, otherwise false.
- */
-exports.validate = (group) => validateP(group) && validateQ(group) && validateG(group)
+module.exports = Subgroup
