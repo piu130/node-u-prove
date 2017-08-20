@@ -24,7 +24,7 @@ describe('UProveHash', function () {
 
     it('a subgroup', function () {
       const hash = new UProveHash('sha256')
-      hash.updateSubgroup(L2048N256.Gq)
+      hash.updateSubgroup(L2048N256.descGq)
       expect(hash.digest('hex')).to.equal('7b36c8a3cf1552077e1cacb365888d25c9dc54f3faed7aff9b11859aa8e4ba06')
     })
 
