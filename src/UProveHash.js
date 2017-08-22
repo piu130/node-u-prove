@@ -6,9 +6,9 @@ const crypto = require('crypto')
 class UProveHash {
   /**
    * Constructor.
-   * @param {string} [algorithm='sha256'] - See crypto.createHash from NodeJS.
+   * @param {string} [algorithm=UProveHash.defaultHash] - See crypto.createHash from NodeJS.
    */
-  constructor (algorithm = 'sha256') {
+  constructor (algorithm = UProveHash.defaultHash) {
     this._hash = crypto.createHash(algorithm)
     this._len4 = Buffer.allocUnsafe(4)
     this._len1 = this._len4.slice(0, 1)
@@ -53,17 +53,26 @@ class UProveHash {
   }
 
   /**
+   * Updates a big integer.
+   * @param {BigInteger} number - Big integer.
+   * @returns {void} Nothing.
+   */
+  updateBigInteger (number) {
+    this.updateOctetString(number.toString(16))
+  }
+
+  /**
    * Updates a subgroup construction.
    * @param {Subgroup} group - Subgroup construction.
    * @returns {void} Nothing.
    */
   updateSubgroup (group) {
-    this.updateOctetString(group.p.toString(16))
-    this.updateOctetString(group.q.toString(16))
-    this.updateOctetString(group.g.toString(16))
+    this.updateBigInteger(group.p)
+    this.updateBigInteger(group.q)
+    this.updateBigInteger(group.g)
   }
 
-  // @todo
+  // // @todo
   // updateECC (group) {
   //
   // }
@@ -105,9 +114,7 @@ class UProveHash {
    */
   updateListOfBigIntegers (list) {
     this.updateUInt32(list.length)
-    list
-      .map((currentValue) => currentValue.toString(16))
-      .forEach(this.updateOctetString, this)
+    list.forEach(this.updateBigInteger, this)
   }
 
   /**
@@ -119,5 +126,7 @@ class UProveHash {
     return this._hash.digest(encoding)
   }
 }
+
+UProveHash.defaultHash = 'sha256'
 
 module.exports = UProveHash
