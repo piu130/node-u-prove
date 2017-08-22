@@ -57,8 +57,8 @@ class UProveHash {
   }
 
   /**
-   * Updates a big integer.
-   * @param {BigInteger|number} number - Big integer.
+   * Updates a integer.
+   * @param {BigInteger|number} number - Integer.
    * @returns {void} Nothing.
    */
   updateInteger (number) {
@@ -112,8 +112,8 @@ class UProveHash {
   }
 
   /**
-   * Updates a list of big integers.
-   * @param {Array<BigInteger|number>} list - List of big integers.
+   * Updates a list of integers.
+   * @param {Array<BigInteger|number>} list - List of integers.
    * @returns {void} Nothing.
    */
   updateListOfIntegers (list) {
