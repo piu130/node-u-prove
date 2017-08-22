@@ -40,7 +40,8 @@ class UProveHash {
    * @returns {void} Nothing.
    */
   updateNull () {
-    this.updateUInt32(0)
+    this._len4.fill(0)
+    this._hash.update(this._len4)
   }
 
   /**
