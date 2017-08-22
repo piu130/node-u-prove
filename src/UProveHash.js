@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const {BigInteger} = require('jsbn')
 
 /**
  * Constructs a new hash object.
@@ -48,16 +49,18 @@ class UProveHash {
    * @returns {void} Nothing.
    */
   updateOctetString (octetString) {
-    this.updateUInt32(Math.ceil(octetString.length / 2))
+    const len = octetString.length / 2
+    if (!Number.isInteger(len)) octetString = '0' + octetString
+    this.updateUInt32(Math.ceil(len))
     this._hash.update(Buffer.from(octetString, 'hex'))
   }
 
   /**
    * Updates a big integer.
-   * @param {BigInteger} number - Big integer.
+   * @param {BigInteger|number} number - Big integer.
    * @returns {void} Nothing.
    */
-  updateBigInteger (number) {
+  updateInteger (number) {
     this.updateOctetString(number.toString(16))
   }
 
@@ -67,9 +70,9 @@ class UProveHash {
    * @returns {void} Nothing.
    */
   updateSubgroup (group) {
-    this.updateBigInteger(group.p)
-    this.updateBigInteger(group.q)
-    this.updateBigInteger(group.g)
+    this.updateInteger(group.p)
+    this.updateInteger(group.q)
+    this.updateInteger(group.g)
   }
 
   // // @todo
@@ -109,21 +112,30 @@ class UProveHash {
 
   /**
    * Updates a list of big integers.
-   * @param {Array<BigInteger>} list - List of big integers.
+   * @param {Array<BigInteger|number>} list - List of big integers.
    * @returns {void} Nothing.
    */
-  updateListOfBigIntegers (list) {
+  updateListOfIntegers (list) {
     this.updateUInt32(list.length)
-    list.forEach(this.updateBigInteger, this)
+    list.forEach(this.updateInteger, this)
   }
 
   /**
-   * Calculates the digest.
+   * Calculates digest.
    * @param {string} encoding - See hash.digest from NodeJS.
    * @returns {Buffer|string} Digest.
    */
   digest (encoding) {
     return this._hash.digest(encoding)
+  }
+
+  /**
+   * Calculates digest in field q.
+   * @param {BigInteger} q - Big integer.
+   * @returns {string} Digest.
+   */
+  digestZq (q) {
+    return new BigInteger(this.digest('hex'), 16).mod(q).toString(16)
   }
 }
 
