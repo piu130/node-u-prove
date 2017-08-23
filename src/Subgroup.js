@@ -12,46 +12,66 @@ class Subgroup {
    */
   constructor (p, q, g) {
     this.p = new BigInteger(p, 16)
-    this._validateP()
+    this.validateP()
     this.q = new BigInteger(q, 16)
-    this._validateQ()
+    this.validateQ()
     this.g = new BigInteger(g, 16)
-    this._validateG()
+    this.validateGenerator(this.g)
   }
 
   /**
-   * Checks if number is included in the group.
+   * Checks if number is included in the group (doc x element Gq).
    * @param {BigInteger} number - Number to check.
    * @returns {boolean} True if included, otherwise false.
    */
   includes (number) {
+    return number.compareTo(this.p) < 0
+  }
+
+  /**
+   * Checks if number is included in the group (doc x^q mod p = 1). Much slower than includes().
+   * @param {BigInteger} number - Number to check.
+   * @returns {boolean} True if included, otherwise false.
+   */
+  secureIncludes (number) {
     return number.compareTo(this.p) < 0 && number.modPow(this.q, this.p).equals(BigInteger.ONE)
   }
 
   /**
    * Checks if p is prime.
-   * @returns {boolean} True if valid, otherwise false.
+   * @returns {void} Nothing.
    */
-  _validateP () {
+  validateP () {
     if (!this.p.isProbablePrime()) throw new RangeError('p is not a prime.')
   }
 
   /**
    * Checks if q is prime. And q divides p - 1.
-   * @returns {boolean} True if valid, otherwise false.
+   * @returns {void} Nothing.
    */
-  _validateQ () {
+  validateQ () {
     if (!this.q.isProbablePrime()) throw new RangeError('q is not a prime.')
     if (!this.p.subtract(BigInteger.ONE).mod(this.q).equals(BigInteger.ZERO)) throw new RangeError('q does not divide p - 1.')
   }
 
   /**
    * Checks if g is element of Gq and g !== 1.
-   * @returns {boolean} True if valid, otherwise false.
+   * @param {BigInteger} g - Generator.
+   * @returns {void} Nothing.
    */
-  _validateG () {
-    if (!this.includes(this.g)) throw new RangeError('g is not element of Gq.')
-    if (this.g.equals(BigInteger.ONE)) throw new RangeError('g must not be one.')
+  validateGenerator (g) {
+    if (!this.includes(g)) throw new RangeError('g is not element of Gq.')
+    if (g.equals(BigInteger.ONE)) throw new RangeError('g must not be one.')
+  }
+
+  /**
+   * Validates p, q and g.
+   * @returns {void} Nothing.
+   */
+  validate () {
+    this.validateP()
+    this.validateQ()
+    this.validateGenerator(this.g)
   }
 }
 
