@@ -4,7 +4,7 @@ const UProveHash = require('./UProveHash')
  * Computes Xt.
  * @param {IssuerParameters} IP - Issuer parameters.
  * @param {string} TI - Token information field.
- * @returns {string} Xt value.
+ * @returns {BigInteger} Xt value.
  */
 module.exports = (IP, TI) => {
   const hash = new UProveHash(IP.UIDh)

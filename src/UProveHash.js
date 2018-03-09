@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const {Buffer} = require('buffer')
 const {BigInteger} = require('jsbn')
 
 /**
@@ -76,8 +77,29 @@ class UProveHash {
     this.updateInteger(group.g)
   }
 
-  // // @todo
-  // updateECC (group) {
+  // // todo
+  // /**
+  //  * Updates a elliptic curve construction.
+  //  * @param {EllipticCurve} curve - Elliptic curve construction.
+  //  * @returns {void} Nothing.
+  //  */
+  // updateECC (curve) {
+  //   // throw new Error('updateECC not implemented yet')
+  //   this.updateInteger(curve.p)
+  //   this.updateInteger(curve.a)
+  //   this.updateInteger(curve.b)
+  //   this.updateInteger(curve.q)
+  //   this.updateInteger(curve.g.x)
+  //   this.updateInteger(curve.g.y)
+  // }
+  //
+  // // todo
+  // /**
+  //  * Updates a elliptic curve point.
+  //  * @param {BigInteger} point - Elliptic curve point.
+  //  * @returns {void} Nothing.
+  //  */
+  // updatePoint (point) {
   //
   // }
 
@@ -133,10 +155,10 @@ class UProveHash {
   /**
    * Calculates digest in field q.
    * @param {BigInteger} q - Big integer.
-   * @returns {string} Digest.
+   * @returns {BigInteger} Digest.
    */
   digestZq (q) {
-    return new BigInteger(this.digest('hex'), 16).mod(q).toString(16)
+    return new BigInteger(this.digest('hex'), 16).mod(q)
   }
 }
 
