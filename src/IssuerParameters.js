@@ -9,8 +9,8 @@ class IssuerParameters {
    * @param {string} UIDp - Octet string holding an application-specific unique identifier for the issuer parameters, the value of which MUST be unique across the application realm.
    * @param {Subgroup} descGq - Description of group q.
    * @param {string|undefined} [UIDh=UProveHash.defaultHash] - Hash function to use. See NodeJS crypto module for supported hashes. Pass undefined to use default value.
-   * @param {Array<string>} generators - Generators to use in the form (g0, g1, ..., gn, gt[, gd]).
-   * @param {Array<boolean>} e - List indicating whether or not the attribute values are hashed when computing a U-Prove token public key h.
+   * @param {Array<BigInteger>} generators - Generators to use in the form (g0, [g1, ..., gn,] gt[, gd]).
+   * @param {Array<boolean>} e - List with length n, indicating whether or not the attribute values are hashed when computing a U-Prove token public key h.
    * @param {string} S - Octet string application-specific specification for the issuer parameters and the U-Prove tokens issued using them.
    * @param {boolean} [d=false] - Device protection flag. Pass generator in generators.
    */
