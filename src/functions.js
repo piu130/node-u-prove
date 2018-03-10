@@ -96,3 +96,12 @@ exports.computeSigmaC = (sigmaCPrime, beta1, q) => sigmaCPrime.add(beta1).mod(q)
  * @returns {BigInteger} Sigma r.
  */
 exports.computeSigmaR = (sigmaC, y0, w, q) => sigmaC.multiply(y0).add(w).mod(q)
+
+/**
+ *
+ * @param {BigInteger} sigmaR
+ * @param {BigInteger} beta2
+ * @param {BigInteger} q
+ * @returns  {BigInteger} sigma r prime.
+ */
+exports.computeSigmaRPrime = (sigmaR, beta2, q) => sigmaR.add(beta2).mod(q)
