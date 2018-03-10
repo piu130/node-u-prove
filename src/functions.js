@@ -79,9 +79,20 @@ exports.computeGamma = (IP, xis, xt) => {
 exports.computeSigmaZ = (gamma, y0, q) => gamma.modPow(y0, q)
 
 /**
- *
- * @param {BigInteger} sigmaCPrime
- * @param {BigInteger} beta1
- * @param {BigInteger} q
+ * Computes sigma c.
+ * @param {BigInteger} sigmaCPrime - Sigma c prime.
+ * @param {BigInteger} beta1 - Beta 1.
+ * @param {BigInteger} q - Q.
+ * @returns {BigInteger} Sigma c.
  */
 exports.computeSigmaC = (sigmaCPrime, beta1, q) => sigmaCPrime.add(beta1).mod(q)
+
+/**
+ * Computes sigma r.
+ * @param {BigInteger} sigmaC - Sigma c.
+ * @param {BigInteger} y0 - Y0.
+ * @param {BigInteger} w - W.
+ * @param {BigInteger} q - Q.
+ * @returns {BigInteger} Sigma r.
+ */
+exports.computeSigmaR = (sigmaC, y0, w, q) => sigmaC.multiply(y0).add(w).mod(q)
