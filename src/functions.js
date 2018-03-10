@@ -16,23 +16,21 @@ exports.computeXt = (IP, TI) => {
 }
 
 /**
- * Computes Xi.
+ * Computes X.
  * @param {BigInteger} q - Prime order q.
  * @param {string} [UIDh=UProveHash.defaultHash] - Hash type.
- * @param {boolean} ei - Indicates if Ai should be hashed or not.
- * @param {string} Ai - Attribute.
- * @returns {BigInteger} Xi.
+ * @param {boolean} e - Indicates if Ai should be hashed or not.
+ * @param {string} A - Attribute.
+ * @returns {BigInteger} X.
  */
-exports.computeXi = (q, UIDh = UProveHash.defaultHash, ei, Ai) => {
-  if (ei) {
-    if (Ai === '') return BigInteger.ZERO
+exports.computeX = (q, UIDh = UProveHash.defaultHash, e, A) => {
+  if (e) {
+    if (A === '') return BigInteger.ZERO
     const hash = new UProveHash(UIDh)
-    hash.updateOctetString(Ai)
-    return new BigInteger(hash, 16).mod(q)
+    hash.updateOctetString(A)
+    return new BigInteger(hash.digest('hex'), 16).mod(q)
   } else {
-    const intAi = new BigInteger(Ai, 16)
-    if (intAi.compareTo(BigInteger.ZERO) < 0 || intAi.compareTo(q) > 0) throw new Error('Ai is smaller than 0 or greater than q.')
-    return intAi
+    return new BigInteger(A, 16).mod(q)
   }
 }
 
@@ -50,3 +48,32 @@ exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
   hash.updateInteger(token.sigmaRPrime)
   return hash.digest('hex')
 }
+
+/**
+ *
+ * @param IP
+ * @param {Array<BigInteger>} xis
+ * @param {BigInteger} xt
+ */
+exports.computeGamma = (IP, xis, xt) => {
+  const generators = IP.generators
+  const q = IP.descGq.q
+  let i = 1
+  return xis.reduce(
+    (acc, curr) => {
+      console.log(curr.toString(16))
+      console.log(generators[i].toString(16))
+      console.log('-----')
+      return acc.multiply(generators[i++].modPow(curr, q))
+    }
+    , generators[0]
+  ).multiply(generators[generators.length - 1].modPow(xt, q)).toString(16)
+}
+
+/**
+ *
+ * @param {BigInteger} gamma
+ * @param {BigInteger} y0
+ * @param {BigInteger} q
+ */
+exports.computeSigmaZ = (gamma, y0, q) => gamma.modPow(y0, q)

@@ -1,22 +1,41 @@
 const {expect} = require('chai')
 const {
   computeXt,
-  computeTokenId
+  computeX,
+  computeTokenId,
+  computeGamma,
+  computeSigmaZ
 } = require('../src/functions')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
-const {TI} = require('./fixtures/data')
+const {A, e, TI, x, xt, UIDt, gamma, sigmaZ, y0} = require('./fixtures/data')
 const fxtUProveToken = require('./fixtures/uProveToken')
 
-describe('computeXt', function () {
-  it('compute correct value', function () {
+describe('functions', function () {
+  it('compute xt', function () {
     expect(computeXt(fxtIssuerParameters, TI).toString(16))
-      .to.equal('721c77bf383bb3402ab49794d285a7cbcfe96e6a593baf3c96ec1cd8f4eadd8d')
+      .to.equal(xt.toString(16))
   })
-})
 
-describe('computeTokenId', function () {
-  it('compute correct value', function () {
+  it('compute x', function () {
+    expect(computeX(fxtIssuerParameters.descGq.q, fxtIssuerParameters.UIDh, e[0], A[0]).equals(x[0])).to.equal(true)
+    expect(computeX(fxtIssuerParameters.descGq.q, fxtIssuerParameters.UIDh, e[1], A[1]).equals(x[1])).to.equal(true)
+    expect(computeX(fxtIssuerParameters.descGq.q, fxtIssuerParameters.UIDh, e[2], A[2]).equals(x[2])).to.equal(true)
+    expect(computeX(fxtIssuerParameters.descGq.q, fxtIssuerParameters.UIDh, e[3], A[3]).equals(x[3])).to.equal(true)
+    expect(computeX(fxtIssuerParameters.descGq.q, fxtIssuerParameters.UIDh, e[4], A[4]).equals(x[4])).to.equal(true)
+  })
+
+  it('compute token id', function () {
     expect(computeTokenId(fxtIssuerParameters.UIDh, fxtUProveToken))
-      .to.equal('db17c922e458b4044cdc2a86295380badb6339f2f11d6a13aa561ba82f88d407')
+      .to.equal(UIDt)
+  })
+
+  it('compute gamma', function () {
+    expect(computeGamma(fxtIssuerParameters, x, xt))
+      .to.equal(gamma)
+  })
+
+  it('compute sigma z', function () {
+    expect(computeSigmaZ(gamma, y0, fxtIssuerParameters.descGq.q).toString(16))
+      .to.equal(sigmaZ)
   })
 })
