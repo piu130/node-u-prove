@@ -81,7 +81,31 @@ exports.computeSigmaZ = (gamma, y0, p) => gamma.modPow(y0, p)
  */
 exports.computeH = (gamma, alpha, p) => gamma.modPow(alpha, p)
 
+/**
+ *
+ * @param sigmaZ
+ * @param alpha
+ * @param p
+ */
 exports.computeSigmaZPrime = (sigmaZ, alpha, p) => sigmaZ.modPow(alpha, p)
+
+/**
+ *
+ * @param g0
+ * @param g
+ * @param beta1
+ * @param beta2
+ * @param p
+ */
+exports.computeT1 = (g0, g, beta1, beta2, p) => g0.modPow(beta1, p).multiply(g.modPow(beta2, p)).mod(p)
+
+/**
+ *
+ * @param t1
+ * @param sigmaA
+ * @param q
+ */
+exports.computeSigmaAPrime = (t1, sigmaA, q) => t1.multiply(sigmaA).mod(q)
 
 /**
  * Computes sigma c prime.

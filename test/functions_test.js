@@ -6,6 +6,7 @@ const {
   computeGamma,
   computeH,
   computeSigmaZPrime,
+  computeT1,
   computeSigmaZ,
   computeSigmaAPrime,
   computeSigmaCPrime,
@@ -14,7 +15,7 @@ const {
   computeSigmaRPrime
 } = require('../src/functions')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
-const {A, e, TI, x, xt, UIDt, gamma, alpha, sigmaZ, y0, PI, h, sigmaA, sigmaAPrime, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, sigmaRPrime, sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
+const {A, e, TI, x, xt, UIDt, gamma, alpha, sigmaZ, y0, t1, PI, h, sigmaA, sigmaAPrime, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, sigmaRPrime, sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
 const fxtUProveToken = require('./fixtures/uProveToken')
 
 describe('functions should', function () {
@@ -50,8 +51,12 @@ describe('functions should', function () {
     expect(computeSigmaZPrime(sigmaZ, alpha, fxtIssuerParameters.descGq.p).equals(sigmaZPrime)).to.equal(true)
   })
 
+  it('compute t1', function () {
+    expect(computeT1(fxtIssuerParameters.generators[0], fxtIssuerParameters.descGq.g, beta1, beta2, fxtIssuerParameters.descGq.p).equals(t1)).to.equal(true)
+  })
+
   it('compute sigma a prime', function () {
-    expect(computeSigmaAPrime(t1, sigmaA).equals(sigmaAPrime)).to.equal(true)
+    expect(computeSigmaAPrime(t1, sigmaA, fxtIssuerParameters.descGq.p).equals(sigmaAPrime)).to.equal(true)
   })
 
   it('compute sigma c prime', function () {
