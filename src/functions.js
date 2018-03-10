@@ -57,26 +57,33 @@ exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
  */
 exports.computeGamma = (IP, xis, xt) => {
   const generators = IP.generators
-  const q = IP.descGq.q
+  const p = IP.descGq.p
   let i = 1
   return xis.reduce(
     (acc, curr) => {
-      console.log(curr.toString(16))
-      console.log(generators[i].toString(16))
-      console.log('-----')
-      return acc.multiply(generators[i++].modPow(curr, q))
+      return acc.multiply(generators[i++].modPow(curr, p))
     }
     , generators[0]
-  ).multiply(generators[generators.length - 1].modPow(xt, q)).toString(16)
+  ).multiply(generators[generators.length - 1].modPow(xt, p))
 }
 
 /**
  *
  * @param {BigInteger} gamma
  * @param {BigInteger} y0
- * @param {BigInteger} q
+ * @param {BigInteger} p
  */
-exports.computeSigmaZ = (gamma, y0, q) => gamma.modPow(y0, q)
+exports.computeSigmaZ = (gamma, y0, p) => gamma.modPow(y0, p)
+
+/**
+ *
+ * @param gamma
+ * @param alpha
+ * @param p
+ */
+exports.computeH = (gamma, alpha, p) => gamma.modPow(alpha, p)
+
+exports.computeSigmaZPrime = (sigmaZ, alpha, p) => sigmaZ.modPow(alpha, p)
 
 /**
  * Computes sigma c prime.
