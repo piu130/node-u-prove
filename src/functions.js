@@ -51,20 +51,18 @@ exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
 
 /**
  *
- * @param IP
- * @param {Array<BigInteger>} xis
+ * @param {IssuerParameters} IP
+ * @param {Array<BigInteger>} xs
  * @param {BigInteger} xt
  */
-exports.computeGamma = (IP, xis, xt) => {
+exports.computeGamma = (IP, xs, xt) => {
   const generators = IP.generators
   const p = IP.descGq.p
-  let i = 1
-  return xis.reduce(
-    (acc, curr) => {
-      return acc.multiply(generators[i++].modPow(curr, p))
-    }
-    , generators[0]
-  ).multiply(generators[generators.length - 1].modPow(xt, p))
+  let result = generators[0]
+  for (let i = 0; i < xs.length; i++) {
+    result = result.multiply(generators[i + 1].modPow(xs[i], p)).mod(p)
+  }
+  return result.multiply(generators[generators.length - 1].modPow(xt, p)).mod(p)
 }
 
 /**
