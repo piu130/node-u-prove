@@ -79,6 +79,26 @@ exports.computeGamma = (IP, xis, xt) => {
 exports.computeSigmaZ = (gamma, y0, q) => gamma.modPow(y0, q)
 
 /**
+ * Computes sigma c prime.
+ * @param {string} UIDh
+ * @param {BigInteger} h
+ * @param {string} PI
+ * @param {BigInteger} sigmaZPrime
+ * @param {BigInteger} sigmaAPrime
+ * @param {BigInteger} sigmaBPrime
+ * @param {BigInteger} q
+ */
+exports.computeSigmaCPrime = (UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime, q) => {
+  const hash = new UProveHash(UIDh)
+  hash.updateInteger(h)
+  hash.updateOctetString(PI)
+  hash.updateInteger(sigmaZPrime)
+  hash.updateInteger(sigmaAPrime)
+  hash.updateInteger(sigmaBPrime)
+  return new BigInteger(hash.digest('hex'), 16).mod(q)
+}
+
+/**
  * Computes sigma c.
  * @param {BigInteger} sigmaCPrime - Sigma c prime.
  * @param {BigInteger} beta1 - Beta 1.
