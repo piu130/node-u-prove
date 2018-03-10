@@ -35,7 +35,7 @@ describe('functions should', function () {
   })
 
   it('compute gamma', function () {
-    expect(computeGamma(fxtIssuerParameters, x, xt).toString(16)).to.equal(gamma.toString(16))
+    expect(computeGamma(fxtIssuerParameters, x, xt).equals(gamma)).to.equal(true)
   })
 
   it('compute sigma z', function () {
