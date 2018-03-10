@@ -13,6 +13,8 @@ const {
   computeSigmaBPrime,
   computeSigmaAPrime,
   computeSigmaCPrime,
+  computeSigmaA,
+  computeSigmaB,
   computeSigmaC,
   computeSigmaR,
   computeSigmaRPrime
@@ -76,6 +78,14 @@ describe('functions should', function () {
 
   it('compute sigma c prime', function () {
     expect(computeSigmaCPrime(fxtIssuerParameters.UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime, fxtIssuerParameters.descGq.q).equals(sigmaCPrime)).to.equal(true)
+  })
+
+  it('compute sigma a', function () {
+    expect(computeSigmaA(fxtIssuerParameters.descGq.g, w, fxtIssuerParameters.descGq.p).equals(sigmaA)).to.equal(true)
+  })
+
+  it('compute sigma b', function () {
+    expect(computeSigmaB(gamma, w, fxtIssuerParameters.descGq.p).equals(sigmaB)).to.equal(true)
   })
 
   it('compute sigma c', function () {

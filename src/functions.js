@@ -54,6 +54,7 @@ exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
  * @param {IssuerParameters} IP
  * @param {Array<BigInteger>} xs
  * @param {BigInteger} xt
+ * @returns
  */
 exports.computeGamma = (IP, xs, xt) => {
   const generators = IP.generators
@@ -70,6 +71,7 @@ exports.computeGamma = (IP, xs, xt) => {
  * @param {BigInteger} gamma
  * @param {BigInteger} y0
  * @param {BigInteger} p
+ * @returns
  */
 exports.computeSigmaZ = (gamma, y0, p) => gamma.modPow(y0, p)
 
@@ -78,6 +80,7 @@ exports.computeSigmaZ = (gamma, y0, p) => gamma.modPow(y0, p)
  * @param gamma
  * @param alpha
  * @param p
+ * @returns
  */
 exports.computeH = (gamma, alpha, p) => gamma.modPow(alpha, p)
 
@@ -86,6 +89,7 @@ exports.computeH = (gamma, alpha, p) => gamma.modPow(alpha, p)
  * @param sigmaZ
  * @param alpha
  * @param p
+ * @returns
  */
 exports.computeSigmaZPrime = (sigmaZ, alpha, p) => sigmaZ.modPow(alpha, p)
 
@@ -96,6 +100,7 @@ exports.computeSigmaZPrime = (sigmaZ, alpha, p) => sigmaZ.modPow(alpha, p)
  * @param beta1
  * @param beta2
  * @param p
+ * @returns
  */
 exports.computeT1 = (g0, g, beta1, beta2, p) => g0.modPow(beta1, p).multiply(g.modPow(beta2, p)).mod(p)
 
@@ -104,6 +109,7 @@ exports.computeT1 = (g0, g, beta1, beta2, p) => g0.modPow(beta1, p).multiply(g.m
  * @param h
  * @param beta2
  * @param p
+ * @returns
  */
 exports.computeT2 = (h, beta2, p) => h.modPow(beta2, p)
 
@@ -116,6 +122,7 @@ exports.computeT2 = (h, beta2, p) => h.modPow(beta2, p)
  * @param alpha
  * @param p
  * @param q
+ * @returns
  */
 exports.computeSigmaBPrime = (sigmaZPrime, beta1, t2, sigmaB, alpha, p, q) =>
   sigmaZPrime.modPow(beta1, p)
@@ -126,6 +133,7 @@ exports.computeSigmaBPrime = (sigmaZPrime, beta1, t2, sigmaB, alpha, p, q) =>
  *
  * @param alpha
  * @param q
+ * @returns
  */
 exports.computeAlphaInverse = (alpha, q) => alpha.modInverse(q)
 
@@ -134,6 +142,7 @@ exports.computeAlphaInverse = (alpha, q) => alpha.modInverse(q)
  * @param t1
  * @param sigmaA
  * @param q
+ * @returns
  */
 exports.computeSigmaAPrime = (t1, sigmaA, q) => t1.multiply(sigmaA).mod(q)
 
@@ -146,6 +155,7 @@ exports.computeSigmaAPrime = (t1, sigmaA, q) => t1.multiply(sigmaA).mod(q)
  * @param {BigInteger} sigmaAPrime
  * @param {BigInteger} sigmaBPrime
  * @param {BigInteger} q
+ * @returns
  */
 exports.computeSigmaCPrime = (UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime, q) => {
   const hash = new UProveHash(UIDh)
@@ -156,6 +166,24 @@ exports.computeSigmaCPrime = (UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime
   hash.updateInteger(sigmaBPrime)
   return new BigInteger(hash.digest('hex'), 16).mod(q)
 }
+
+/**
+ *
+ * @param g
+ * @param w
+ * @param p
+ * @returns
+ */
+exports.computeSigmaA = (g, w, p) => g.modPow(w, p)
+
+/**
+ *
+ * @param gamma
+ * @param w
+ * @param p
+ * @returns
+ */
+exports.computeSigmaB = (gamma, w, p) => gamma.modPow(w, p)
 
 /**
  * Computes sigma c.
