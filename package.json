@@ -18,16 +18,16 @@
   },
   "homepage": "https://github.com/piu130/node-u-prove#readme",
   "devDependencies": {
-    "chai": "^4.1.0",
-    "eslint": "^4.2.0",
-    "eslint-config-standard": "^10.2.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-jsdoc": "^0.3.2",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsdoc": "^3.1.1",
-    "eslint-plugin-node": "^5.1.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsdoc": "^3.5.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^3.4.2"
+    "mocha": "^5.0.4"
   },
   "dependencies": {
     "jsbn": "^1.1.0"
