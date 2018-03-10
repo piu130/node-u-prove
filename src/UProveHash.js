@@ -1,6 +1,5 @@
 const crypto = require('crypto')
 const {Buffer} = require('buffer')
-const {BigInteger} = require('jsbn')
 
 /**
  * Constructs a new hash object.
@@ -150,15 +149,6 @@ class UProveHash {
    */
   digest (encoding) {
     return this._hash.digest(encoding)
-  }
-
-  /**
-   * Calculates digest in field q.
-   * @param {BigInteger} q - Big integer.
-   * @returns {BigInteger} Digest.
-   */
-  digestZq (q) {
-    return new BigInteger(this.digest('hex'), 16).mod(q)
   }
 }
 

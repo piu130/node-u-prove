@@ -1,3 +1,4 @@
+const {BigInteger} = require('jsbn')
 const UProveHash = require('./UProveHash')
 
 /**
@@ -11,5 +12,5 @@ module.exports = (IP, TI) => {
   hash.updateByte(0x01)
   hash.updateOctetString(IP.hash)
   hash.updateOctetString(TI)
-  return hash.digestZq(IP.descGq.q)
+  return new BigInteger(hash.digest('hex'), 16).mod(IP.descGq.q)
 }
