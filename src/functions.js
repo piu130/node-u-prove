@@ -101,6 +101,36 @@ exports.computeT1 = (g0, g, beta1, beta2, p) => g0.modPow(beta1, p).multiply(g.m
 
 /**
  *
+ * @param h
+ * @param beta2
+ * @param p
+ */
+exports.computeT2 = (h, beta2, p) => h.modPow(beta2, p)
+
+/**
+ *
+ * @param sigmaZPrime
+ * @param beta1
+ * @param t2
+ * @param sigmaB
+ * @param alpha
+ * @param p
+ * @param q
+ */
+exports.computeSigmaBPrime = (sigmaZPrime, beta1, t2, sigmaB, alpha, p, q) =>
+  sigmaZPrime.modPow(beta1, p)
+    .multiply(t2)
+    .multiply(sigmaB.modPow(alpha, p)).mod(p)
+
+/**
+ *
+ * @param alpha
+ * @param q
+ */
+exports.computeAlphaInverse = (alpha, q) => alpha.modInverse(q)
+
+/**
+ *
  * @param t1
  * @param sigmaA
  * @param q
