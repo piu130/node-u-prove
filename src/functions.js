@@ -77,3 +77,11 @@ exports.computeGamma = (IP, xis, xt) => {
  * @param {BigInteger} q
  */
 exports.computeSigmaZ = (gamma, y0, q) => gamma.modPow(y0, q)
+
+/**
+ *
+ * @param {BigInteger} sigmaCPrime
+ * @param {BigInteger} beta1
+ * @param {BigInteger} q
+ */
+exports.computeSigmaC = (sigmaCPrime, beta1, q) => sigmaCPrime.add(beta1).mod(q)

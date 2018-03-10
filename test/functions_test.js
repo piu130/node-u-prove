@@ -4,16 +4,17 @@ const {
   computeX,
   computeTokenId,
   computeGamma,
-  computeSigmaZ
+  computeSigmaZ,
+  computeSigmaAPrime,
+  computeSigmaC
 } = require('../src/functions')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
-const {A, e, TI, x, xt, UIDt, gamma, sigmaZ, y0} = require('./fixtures/data')
+const {A, e, TI, x, xt, UIDt, gamma, sigmaZ, y0, sigmaA, sigmaAPrime, sigmaC, sigmaCPrime, beta1} = require('./fixtures/data')
 const fxtUProveToken = require('./fixtures/uProveToken')
 
-describe('functions', function () {
+describe('functions should', function () {
   it('compute xt', function () {
-    expect(computeXt(fxtIssuerParameters, TI).toString(16))
-      .to.equal(xt.toString(16))
+    expect(computeXt(fxtIssuerParameters, TI).equals(xt)).to.equal(true)
   })
 
   it('compute x', function () {
@@ -25,8 +26,7 @@ describe('functions', function () {
   })
 
   it('compute token id', function () {
-    expect(computeTokenId(fxtIssuerParameters.UIDh, fxtUProveToken))
-      .to.equal(UIDt)
+    expect(computeTokenId(fxtIssuerParameters.UIDh, fxtUProveToken)).to.equal(UIDt)
   })
 
   it('compute gamma', function () {
@@ -37,5 +37,13 @@ describe('functions', function () {
   it('compute sigma z', function () {
     expect(computeSigmaZ(gamma, y0, fxtIssuerParameters.descGq.q).toString(16))
       .to.equal(sigmaZ)
+  })
+
+  it('compute sigma a prime', function () {
+    expect(computeSigmaAPrime(t1, sigmaA).equals(sigmaAPrime)).to.equal(true)
+  })
+
+  it('compute sigma c', function () {
+    expect(computeSigmaC(sigmaCPrime, beta1, fxtIssuerParameters.descGq.q).equals(sigmaC)).to.equal(true)
   })
 })
