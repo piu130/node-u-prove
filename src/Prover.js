@@ -21,7 +21,7 @@ class Prover {
    *
    * @param {IssuerParameters} IP - Issuer parameters.
    * @param {string} TI - Token information field. (eg. expiry dates, token usage restrictions, and token metadata.)
-   * @param applicationAttributes - (eg. the time and date of the interaction, the actions taken by the Verifier upon accepting the U-Prove token, and the Prover's identifier in the Verifier's domain)
+   * @param applicationAttributes - (eg. the time and date of the interaction, the actions taken by the Verifier upon accepting the U-Prove token, and the Prover's identifier in the Verifier's domain).
    */
   constructor (IP, {attributes, TI}) {
     this.IP = IP
