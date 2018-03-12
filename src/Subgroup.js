@@ -1,5 +1,4 @@
 const {BigInteger} = require('jsbn')
-
 const IntegerGroup = require('./IntegerGroup')
 
 /**
