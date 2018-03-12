@@ -217,16 +217,16 @@ exports.computeSigmaRPrime = (sigmaR, beta2, {Zq}) => Zq.add(sigmaR, beta2)
  * @param {IssuerParameters} IP
  * @param {UProveToken} token
  */
-exports.verifyTokenSignature = ({UIDh, descGq, generators}, token) => {
-  if (token.h.equals(BigInteger.ONE)) return false
+exports.verifyTokenSignature = ({UIDh, descGq, generators}, {h, PI, sigmaZPrime, sigmaRPrime, sigmaCPrime}) => {
+  if (h.equals(BigInteger.ONE)) return false
   const {Zq, Gq} = descGq
   const hash = new UProveHash(UIDh)
-  hash.updateInteger(token.h)
-  hash.updateOctetString(token.PI)
-  hash.updateInteger(token.sigmaZPrime)
+  hash.updateInteger(h)
+  hash.updateOctetString(PI)
+  hash.updateInteger(sigmaZPrime)
   // g^sigmaRPrime * g0^(-sigmaCPrime)
-  hash.updateInteger(Gq.multiply(Gq.modPow(descGq.g, token.sigmaRPrime), Gq.modInverse(Gq.modPow(generators[0], token.sigmaCPrime))))
+  hash.updateInteger(Gq.multiply(Gq.modPow(descGq.g, sigmaRPrime), Gq.modInverse(Gq.modPow(generators[0], sigmaCPrime))))
   // h^sigmaRPrime * sigmaZPrime^(-sigmaCPrime)
-  hash.updateInteger(Gq.multiply(Gq.modPow(token.h, token.sigmaRPrime), Gq.modInverse(Gq.modPow(token.sigmaZPrime, token.sigmaCPrime))))
-  return Zq.mod(new BigInteger(hash.digest('hex'), 16)).equals(token.sigmaCPrime)
+  hash.updateInteger(Gq.multiply(Gq.modPow(h, sigmaRPrime), Gq.modInverse(Gq.modPow(sigmaZPrime, sigmaCPrime))))
+  return Zq.mod(new BigInteger(hash.digest('hex'), 16)).equals(sigmaCPrime)
 }
