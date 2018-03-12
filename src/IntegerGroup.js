@@ -1,3 +1,6 @@
+const {randomBytes} = require('crypto')
+const {BigInteger} = require('jsbn')
+
 /**
  * Constructs a new integer group.
  */
@@ -65,6 +68,17 @@ class IntegerGroup {
    */
   modInverse (number) {
     return number.modInverse(this.modulus)
+  }
+
+  /**
+   * Returns a random number of this group.
+   * @param {boolean} [includeZero=true] - True if random number could be zero. Otherwise false.
+   * @returns {BigInteger} Random number in this group.
+   */
+  randomNumber (includeZero = true) {
+    const byteLength = Math.ceil(this.modulus.bitLength() / 4)
+    const randomNum = new BigInteger(randomBytes(byteLength).toString('hex')).mod(this.modulus) // todo is this secure to generate a random number?
+    return includeZero || !randomNum.equals(BigInteger.ZERO) ? randomNum : this.randomNumber(includeZero)
   }
 }
 
