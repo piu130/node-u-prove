@@ -24,6 +24,12 @@ class IntegerGroup {
     return number.mod(this.modulus)
   }
 
+  /**
+   * Calculates a+b.
+   * @param {BigInteger} a - Summand.
+   * @param {BigInteger} b - Summand.
+   * @returns {BigInteger} Result.
+   */
   add (a, b) {
     return a.add(b).mod(this.modulus)
   }
