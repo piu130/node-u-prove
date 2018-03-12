@@ -1,5 +1,7 @@
 const {BigInteger} = require('jsbn')
 
+const IntegerGroup = require('./IntegerGroup')
+
 /**
  * Constructs a new subgroup.
  */
@@ -17,6 +19,15 @@ class Subgroup {
     this.validateQ()
     this.g = new BigInteger(g, 16)
     this.validateGenerator(this.g)
+    this.Gq = new IntegerGroup(this.p)
+    this.Zq = new IntegerGroup(this.q)
+  }
+
+  /**
+   * The identity element of this group.
+   */
+  get identityElement () {
+    return this.Gq.createFromBigInteger(BigInteger.ONE)
   }
 
   /**
