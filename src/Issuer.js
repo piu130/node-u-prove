@@ -8,8 +8,17 @@ const {
   computeSigmaR
 } = require('functions')
 
+/**
+ * Constructs a new issuer.
+ */
 class Issuer {
-  constructor (IP, {attributes, TI}) {
+  /**
+   * Constructor.
+   * @param {IssuerParameters} IP - Issuer parameters.
+   * @param {Array<string>} attributes - Attributes.
+   * @param {string} TI - Token information.
+   */
+  constructor (IP, attributes, TI) {
     this.IP = IP
     const xt = computeXt(this.IP, TI)
     const x = []

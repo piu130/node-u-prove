@@ -1,7 +1,11 @@
 /**
- *
+ * Constructs a new integer group.
  */
 class IntegerGroup {
+  /**
+   * Constructor.
+   * @param {BigInteger} modulus - Modulus.
+   */
   constructor (modulus) {
     this.modulus = modulus
   }

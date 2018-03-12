@@ -49,10 +49,10 @@ exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
 }
 
 /**
- *
+ * Computes gamma.
  * @param {IssuerParameters} IP - Issuer parameters.
- * @param {Array<BigInteger>} xs
- * @param {BigInteger} xt
+ * @param {Array<BigInteger>} xs - Encoded / hashed attributes.
+ * @param {BigInteger} xt - Xt.
  * @returns {BigInteger} Gamma.
  */
 exports.computeGamma = ({generators, descGq}, xs, xt) => {
@@ -65,60 +65,59 @@ exports.computeGamma = ({generators, descGq}, xs, xt) => {
 }
 
 /**
- *
+ * Computes sigma z.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} gamma
- * @param {BigInteger} y0
- * @returns
+ * @param {BigInteger} gamma - Gamma.
+ * @param {BigInteger} y0 - Y0.
+ * @returns {BigInteger} Sigma z.
  */
 exports.computeSigmaZ = ({Gq}, gamma, y0) => Gq.modPow(gamma, y0)
 
 /**
- *
+ * Computes h.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} gamma
- * @param {BigInteger} alpha
- * @returns
+ * @param {BigInteger} gamma - Gamma.
+ * @param {BigInteger} alpha - Alpha.
+ * @returns {BigInteger} H.
  */
 exports.computeH = ({Gq}, gamma, alpha) => Gq.modPow(gamma, alpha)
 
 /**
- *
+ * Computes sigma z prime.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} sigmaZ
- * @param {BigInteger} alpha
- * @returns
+ * @param {BigInteger} sigmaZ - Sigma z.
+ * @param {BigInteger} alpha - Alpha.
+ * @returns {BigInteger} Sigma z prime.
  */
 exports.computeSigmaZPrime = ({Gq}, sigmaZ, alpha) => Gq.modPow(sigmaZ, alpha)
 
 /**
- *
+ * Computes t1.
  * @param {IssuerParameters} IP - Issuer parameters.
- * @param {BigInteger} beta1
- * @param {BigInteger} beta2
- * @param {Subgroup} descGq - Prime order q.
- * @returns
+ * @param {BigInteger} beta1 - Beta1.
+ * @param {BigInteger} beta2 - Beta2.
+ * @returns {BigInteger} T1.
  */
 exports.computeT1 = ({generators, descGq}, beta1, beta2) => descGq.Gq.multiply(descGq.Gq.modPow(generators[0], beta1), descGq.Gq.modPow(descGq.g, beta2))
 
 /**
- *
+ * Computes t2.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} h
- * @param {BigInteger} beta2
- * @returns
+ * @param {BigInteger} h - H.
+ * @param {BigInteger} beta2 - Beta2.
+ * @returns {BigInteger} T2.
  */
 exports.computeT2 = ({Gq}, h, beta2) => Gq.modPow(h, beta2)
 
 /**
- *
+ * Computes sigma b prime.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} sigmaZPrime
- * @param {BigInteger} beta1
- * @param {BigInteger} t2
- * @param {BigInteger} sigmaB
- * @param {BigInteger} alpha
- * @returns
+ * @param {BigInteger} sigmaZPrime - Sigma z prime.
+ * @param {BigInteger} beta1 - Beta1.
+ * @param {BigInteger} t2 - T2.
+ * @param {BigInteger} sigmaB - Sigma b.
+ * @param {BigInteger} alpha - Alpha.
+ * @returns {BigInteger} Sigma b prime.
  */
 exports.computeSigmaBPrime = ({Gq}, sigmaZPrime, beta1, t2, sigmaB, alpha) =>
   Gq.multiply(
@@ -127,32 +126,31 @@ exports.computeSigmaBPrime = ({Gq}, sigmaZPrime, beta1, t2, sigmaB, alpha) =>
   )
 
 /**
- *
+ * Computes alpha inverse.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} alpha
- * @returns
+ * @param {BigInteger} alpha - Alpha.
+ * @returns {BigInteger} Alpha inverse.
  */
 exports.computeAlphaInverse = ({Zq}, alpha) => Zq.modInverse(alpha)
 
 /**
- *
- * @param t1
- * @param {BigInteger} sigmaA
+ * Computes sigma a prime.
  * @param {Subgroup} descGq - Prime order q.
- * @returns
+ * @param {BigInteger} t1 - T1.
+ * @param {BigInteger} sigmaA - Sigma a.
+ * @returns {BigInteger} Sigma a prime.
  */
 exports.computeSigmaAPrime = ({Gq}, t1, sigmaA) => Gq.multiply(t1, sigmaA)
 
 /**
  * Computes sigma c prime.
- * @param {string} UIDh
- * @param {BigInteger} h
- * @param {string} PI
- * @param {BigInteger} sigmaZPrime
- * @param {BigInteger} sigmaAPrime
- * @param {BigInteger} sigmaBPrime
- * @param {Subgroup} descGq - Prime order q.
- * @returns
+ * @param {IssuerParameters} IP - Issuer parameters.
+ * @param {BigInteger} h - H.
+ * @param {string} PI - Prover information field.
+ * @param {BigInteger} sigmaZPrime - Sigma z prime.
+ * @param {BigInteger} sigmaAPrime - Sigma a prime.
+ * @param {BigInteger} sigmaBPrime - Sigma b prime.
+ * @returns {BigInteger} Sigma c prime.
  */
 exports.computeSigmaCPrime = ({UIDh, descGq}, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime) => {
   const hash = new UProveHash(UIDh)
@@ -165,19 +163,19 @@ exports.computeSigmaCPrime = ({UIDh, descGq}, h, PI, sigmaZPrime, sigmaAPrime, s
 }
 
 /**
- *
+ * Computes sigma a.
  * @param {Subgroup} descGq - Prime order q.
- * @param w
- * @returns
+ * @param {BigInteger} w - W.
+ * @returns {BigInteger} Sigma a.
  */
 exports.computeSigmaA = ({Gq, g}, w) => Gq.modPow(g, w)
 
 /**
- *
+ * Computes sigma b.
  * @param {Subgroup} descGq - Prime order q.
- * @param gamma
- * @param w
- * @returns
+ * @param {BigInteger} gamma - Gamma.
+ * @param {BigInteger} w - W.
+ * @returns {BigInteger} Sigma b.
  */
 exports.computeSigmaB = ({Gq}, gamma, w) => Gq.modPow(gamma, w)
 
@@ -201,18 +199,19 @@ exports.computeSigmaC = ({Zq}, sigmaCPrime, beta1) => Zq.add(sigmaCPrime, beta1)
 exports.computeSigmaR = ({Zq}, sigmaC, y0, w) => Zq.add(Zq.multiply(sigmaC, y0), w)
 
 /**
- *
+ * Computes sigma r prime.
  * @param {Subgroup} descGq - Prime order q.
- * @param {BigInteger} sigmaR
- * @param {BigInteger} beta2
- * @returns  {BigInteger} sigma r prime.
+ * @param {BigInteger} sigmaR - Sigma r.
+ * @param {BigInteger} beta2 - Beta2.
+ * @returns {BigInteger} Sigma r prime.
  */
 exports.computeSigmaRPrime = ({Zq}, sigmaR, beta2) => Zq.add(sigmaR, beta2)
 
 /**
- *
- * @param {IssuerParameters} IP
- * @param {UProveToken} token
+ * Verifies the token signature.
+ * @param {IssuerParameters} IP - Issuer parameters.
+ * @param {UProveToken} token - Token.
+ * @returns {boolean} True if signature ok, otherwise false.
  */
 exports.verifyTokenSignature = ({UIDh, descGq, generators}, {h, PI, sigmaZPrime, sigmaRPrime, sigmaCPrime}) => {
   if (h.equals(BigInteger.ONE)) return false

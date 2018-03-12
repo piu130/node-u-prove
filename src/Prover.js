@@ -14,16 +14,16 @@ const {
 } = require('./functions')
 
 /**
- *
+ * Constructs a new prover.
  */
 class Prover {
   /**
-   *
+   * Constructor.
    * @param {IssuerParameters} IP - Issuer parameters.
-   * @param {string} TI - Token information field. (eg. expiry dates, token usage restrictions, and token metadata.)
-   * @param applicationAttributes - (eg. the time and date of the interaction, the actions taken by the Verifier upon accepting the U-Prove token, and the Prover's identifier in the Verifier's domain).
+   * @param {} attributes - Application specific attributes (e.g. the time and date of the interaction, the actions taken by the Verifier upon accepting the U-Prove token, and the Prover's identifier in the Verifier's domain).
+   * @param {string} TI - Token information field (e.g. expiry dates, token usage restrictions, and token metadata).
    */
-  constructor (IP, {attributes, TI}) {
+  constructor (IP, attributes, TI) {
     this.IP = IP
     this.TI = TI
     const xt = computeXt(IP, TI)
