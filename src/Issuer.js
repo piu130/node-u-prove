@@ -6,7 +6,7 @@ const {
   computeSigmaA,
   computeSigmaB,
   computeSigmaR
-} = require('functions')
+} = require('./functions')
 
 /**
  * Constructs a new issuer.
@@ -24,16 +24,20 @@ class Issuer {
     const x = []
     for (let i = 0; i < attributes.length; i++) x.push(computeX(this.IP, this.IP.e[i], attributes[i]))
     this.gamma = computeGamma(this.IP, x, xt)
-    // this.y0 = // generate at random from Zq
+    this.y0 = this.IP.descGq.Zq.randomNumber()
     this.sigmaZ = computeSigmaZ(this.IP.descGq, this.gamma, this.y0)
   }
 
   /**
    * Generates the first message.
-   * @returns {{sigmaZ: *, sigmaA, sigmaB}} First message.
+   * @returns {{
+   *  sigmaZ: BigInteger,
+   *  sigmaA: BigInteger,
+   *  sigmaB: BigInteger
+   * }} First message.
    */
   generateFirstMessage () {
-    // this.w = // generate w at random from Zq
+    this.w = this.IP.descGq.Zq.randomNumber()
     const sigmaA = computeSigmaA(this.IP.descGq, this.w)
     const sigmaB = computeSigmaB(this.IP.descGq, this.gamma, this.w)
     return {
@@ -44,12 +48,20 @@ class Issuer {
   }
 
   /**
+   * Parses the second message.
+   * @param {{sigmaC: BigInteger}} secondMessage - Second message.
+   * @returns {void} Nothing.
+   */
+  parseSecondMessage ({sigmaC}) {
+    this.sigmaC = sigmaC
+  }
+
+  /**
    * Generates the third message.
    * @returns {{sigmaR}} Third message.
    */
   generateThirdMessage () {
-    // Get sigma c from first message
-    const sigmaR = computeSigmaR(this.IP, this.sigmaC, this.y0, this.w)
+    const sigmaR = computeSigmaR(this.IP.descGq, this.sigmaC, this.y0, this.w)
     delete this.w
     return {sigmaR}
   }
