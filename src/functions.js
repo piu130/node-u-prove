@@ -17,13 +17,12 @@ exports.computeXt = ({UIDh, hash, descGq}, TI) => {
 
 /**
  * Computes X.
- * @param {Subgroup} descGq - Prime order q.
- * @param {string} [UIDh=UProveHash.defaultHash] - Hash type.
+ * @param {IssuerParameters} IP - Issuer parameters.
  * @param {boolean} e - Indicates if Ai should be hashed or not.
  * @param {string} A - Attribute.
  * @returns {BigInteger} X.
  */
-exports.computeX = (descGq, UIDh = UProveHash.defaultHash, e, A) => {
+exports.computeX = ({descGq, UIDh}, e, A) => {
   if (e) {
     if (A === '') return BigInteger.ZERO
     const hash = new UProveHash(UIDh)
@@ -67,12 +66,12 @@ exports.computeGamma = ({generators, descGq}, xs, xt) => {
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param {BigInteger} gamma
  * @param {BigInteger} y0
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaZ = (gamma, y0, {Gq}) => Gq.modPow(gamma, y0)
+exports.computeSigmaZ = ({Gq}, gamma, y0) => Gq.modPow(gamma, y0)
 
 /**
  *
@@ -168,21 +167,21 @@ exports.computeSigmaCPrime = (UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime
 
 /**
  *
- * @param g
+ * @param {Subgroup} descGq - Prime order q.
  * @param w
  * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaA = (g, w, {Gq}) => Gq.modPow(g, w)
+exports.computeSigmaA = ({Gq, g}, w) => Gq.modPow(g, w)
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param gamma
  * @param w
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaB = (gamma, w, {Gq}) => Gq.modPow(gamma, w)
+exports.computeSigmaB = ({Gq}, gamma, w) => Gq.modPow(gamma, w)
 
 /**
  * Computes sigma c.

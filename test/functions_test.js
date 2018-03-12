@@ -30,11 +30,11 @@ describe('functions should', function () {
   })
 
   it('compute x', function () {
-    expect(computeX(fxtIssuerParameters.descGq, fxtIssuerParameters.UIDh, e[0], A[0]).equals(x[0])).to.equal(true)
-    expect(computeX(fxtIssuerParameters.descGq, fxtIssuerParameters.UIDh, e[1], A[1]).equals(x[1])).to.equal(true)
-    expect(computeX(fxtIssuerParameters.descGq, fxtIssuerParameters.UIDh, e[2], A[2]).equals(x[2])).to.equal(true)
-    expect(computeX(fxtIssuerParameters.descGq, fxtIssuerParameters.UIDh, e[3], A[3]).equals(x[3])).to.equal(true)
-    expect(computeX(fxtIssuerParameters.descGq, fxtIssuerParameters.UIDh, e[4], A[4]).equals(x[4])).to.equal(true)
+    expect(computeX(fxtIssuerParameters, e[0], A[0]).equals(x[0])).to.equal(true)
+    expect(computeX(fxtIssuerParameters, e[1], A[1]).equals(x[1])).to.equal(true)
+    expect(computeX(fxtIssuerParameters, e[2], A[2]).equals(x[2])).to.equal(true)
+    expect(computeX(fxtIssuerParameters, e[3], A[3]).equals(x[3])).to.equal(true)
+    expect(computeX(fxtIssuerParameters, e[4], A[4]).equals(x[4])).to.equal(true)
   })
 
   it('compute token id', function () {
@@ -46,7 +46,7 @@ describe('functions should', function () {
   })
 
   it('compute sigma z', function () {
-    expect(computeSigmaZ(gamma, y0, fxtIssuerParameters.descGq).equals(sigmaZ)).to.equal(true)
+    expect(computeSigmaZ(fxtIssuerParameters.descGq, gamma, y0).equals(sigmaZ)).to.equal(true)
   })
 
   it('compute h', function () {
@@ -82,11 +82,11 @@ describe('functions should', function () {
   })
 
   it('compute sigma a', function () {
-    expect(computeSigmaA(fxtIssuerParameters.descGq.g, w, fxtIssuerParameters.descGq).equals(sigmaA)).to.equal(true)
+    expect(computeSigmaA(fxtIssuerParameters.descGq, w).equals(sigmaA)).to.equal(true)
   })
 
   it('compute sigma b', function () {
-    expect(computeSigmaB(gamma, w, fxtIssuerParameters.descGq).equals(sigmaB)).to.equal(true)
+    expect(computeSigmaB(fxtIssuerParameters.descGq, gamma, w).equals(sigmaB)).to.equal(true)
   })
 
   it('compute sigma c', function () {
