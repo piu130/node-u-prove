@@ -75,53 +75,53 @@ exports.computeSigmaZ = ({Gq}, gamma, y0) => Gq.modPow(gamma, y0)
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param gamma
  * @param alpha
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeH = (gamma, alpha, {Gq}) => Gq.modPow(gamma, alpha)
+exports.computeH = ({Gq}, gamma, alpha) => Gq.modPow(gamma, alpha)
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param sigmaZ
  * @param alpha
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaZPrime = (sigmaZ, alpha, {Gq}) => Gq.modPow(sigmaZ, alpha)
+exports.computeSigmaZPrime = ({Gq}, sigmaZ, alpha) => Gq.modPow(sigmaZ, alpha)
 
 /**
  *
- * @param g0
+ * @param {IssuerParameters} IP - Issuer parameters.
  * @param g
  * @param beta1
  * @param beta2
  * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeT1 = (g0, g, beta1, beta2, {Gq}) => Gq.multiply(Gq.modPow(g0, beta1), Gq.modPow(g, beta2))
+exports.computeT1 = ({generators, descGq}, beta1, beta2) => descGq.Gq.multiply(descGq.Gq.modPow(generators[0], beta1), descGq.Gq.modPow(descGq.g, beta2))
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param h
  * @param beta2
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeT2 = (h, beta2, {Gq}) => Gq.modPow(h, beta2)
+exports.computeT2 = ({Gq}, h, beta2) => Gq.modPow(h, beta2)
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param sigmaZPrime
  * @param beta1
  * @param t2
  * @param sigmaB
  * @param alpha
- * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaBPrime = (sigmaZPrime, beta1, t2, sigmaB, alpha, {Gq}) =>
+exports.computeSigmaBPrime = ({Gq}, sigmaZPrime, beta1, t2, sigmaB, alpha) =>
   Gq.multiply(
     Gq.multiply(Gq.modPow(sigmaZPrime, beta1), t2),
     Gq.modPow(sigmaB, alpha)
@@ -129,11 +129,11 @@ exports.computeSigmaBPrime = (sigmaZPrime, beta1, t2, sigmaB, alpha, {Gq}) =>
 
 /**
  *
- * @param alpha
  * @param {Subgroup} descGq - Prime order q.
+ * @param alpha
  * @returns
  */
-exports.computeAlphaInverse = (alpha, {Zq}) => Zq.modInverse(alpha)
+exports.computeAlphaInverse = ({Zq}, alpha) => Zq.modInverse(alpha)
 
 /**
  *
@@ -142,7 +142,7 @@ exports.computeAlphaInverse = (alpha, {Zq}) => Zq.modInverse(alpha)
  * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaAPrime = (t1, sigmaA, {Gq}) => Gq.multiply(t1, sigmaA)
+exports.computeSigmaAPrime = ({Gq}, t1, sigmaA) => Gq.multiply(t1, sigmaA)
 
 /**
  * Computes sigma c prime.
@@ -155,14 +155,14 @@ exports.computeSigmaAPrime = (t1, sigmaA, {Gq}) => Gq.multiply(t1, sigmaA)
  * @param {Subgroup} descGq - Prime order q.
  * @returns
  */
-exports.computeSigmaCPrime = (UIDh, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime, {Zq}) => {
+exports.computeSigmaCPrime = ({UIDh, descGq}, h, PI, sigmaZPrime, sigmaAPrime, sigmaBPrime) => {
   const hash = new UProveHash(UIDh)
   hash.updateInteger(h)
   hash.updateOctetString(PI)
   hash.updateInteger(sigmaZPrime)
   hash.updateInteger(sigmaAPrime)
   hash.updateInteger(sigmaBPrime)
-  return Zq.mod(new BigInteger(hash.digest('hex'), 16))
+  return descGq.Zq.mod(new BigInteger(hash.digest('hex'), 16))
 }
 
 /**
@@ -185,31 +185,31 @@ exports.computeSigmaB = ({Gq}, gamma, w) => Gq.modPow(gamma, w)
 
 /**
  * Computes sigma c.
+ * @param {Subgroup} descGq - Prime order q.
  * @param {BigInteger} sigmaCPrime - Sigma c prime.
  * @param {BigInteger} beta1 - Beta 1.
- * @param {Subgroup} descGq - Prime order q.
  * @returns {BigInteger} Sigma c.
  */
-exports.computeSigmaC = (sigmaCPrime, beta1, {Zq}) => Zq.add(sigmaCPrime, beta1)
+exports.computeSigmaC = ({Zq}, sigmaCPrime, beta1) => Zq.add(sigmaCPrime, beta1)
 
 /**
  * Computes sigma r.
+ * @param {Subgroup} descGq - Prime order q.
  * @param {BigInteger} sigmaC - Sigma c.
  * @param {BigInteger} y0 - Y0.
  * @param {BigInteger} w - W.
- * @param {Subgroup} descGq - Prime order q.
  * @returns {BigInteger} Sigma r.
  */
-exports.computeSigmaR = (sigmaC, y0, w, {Zq}) => Zq.add(Zq.multiply(sigmaC, y0), w)
+exports.computeSigmaR = ({Zq}, sigmaC, y0, w) => Zq.add(Zq.multiply(sigmaC, y0), w)
 
 /**
  *
+ * @param {Subgroup} descGq - Prime order q.
  * @param {BigInteger} sigmaR
  * @param {BigInteger} beta2
- * @param {Subgroup} descGq - Prime order q.
  * @returns  {BigInteger} sigma r prime.
  */
-exports.computeSigmaRPrime = (sigmaR, beta2, {Zq}) => Zq.add(sigmaR, beta2)
+exports.computeSigmaRPrime = ({Zq}, sigmaR, beta2) => Zq.add(sigmaR, beta2)
 
 /**
  *
