@@ -22,8 +22,8 @@ describe('integration test', function () {
   it('should construct prover', function () {
     expect(prover.IP).to.equal(fxtIssuerParameters)
     expect(prover.TI).to.equal(TI)
-    expect(issuer.gamma.equals(gamma)).to.equal(true)
     expect(prover.PI).to.equal(PI)
+    expect(issuer.gamma.equals(gamma)).to.equal(true)
   })
 
   // Mock random number generator
@@ -62,6 +62,16 @@ describe('integration test', function () {
   const secondMessage = prover.generateSecondMessage()
   it('prover should generate second message', function () {
     expect(prover.alpha.equals(alpha)).to.equal(true)
+    expect(prover.beta1.equals(beta1)).to.equal(true)
+    expect(prover.beta2.equals(beta2)).to.equal(true)
+    expect(prover.h.equals(h)).to.equal(true)
+    expect(prover.t1.equals(t1)).to.equal(true)
+    expect(prover.t2.equals(t2)).to.equal(true)
+    expect(prover.alphaInverse.equals(alphaInverse)).to.equal(true)
+    expect(prover.sigmaZPrime.equals(sigmaZPrime)).to.equal(true)
+    expect(prover.sigmaAPrime.equals(sigmaAPrime)).to.equal(true)
+    expect(prover.sigmaBPrime.equals(sigmaBPrime)).to.equal(true)
+    expect(prover.sigmaCPrime.equals(sigmaCPrime)).to.equal(true)
     expect(secondMessage.sigmaC.equals(sigmaC)).to.equal(true)
   })
 
@@ -72,8 +82,8 @@ describe('integration test', function () {
 
   const thirdMessage = issuer.generateThirdMessage()
   it('issuer should generate third message', function () {
-    expect(thirdMessage.sigmaR.equals(sigmaR)).to.equal(true)
     expect(issuer.w).to.equal(undefined)
+    expect(thirdMessage.sigmaR.equals(sigmaR)).to.equal(true)
   })
 
   prover.parseThirdMessage(thirdMessage)
