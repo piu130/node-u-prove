@@ -226,3 +226,25 @@ exports.verifyTokenSignature = ({UIDh, descGq, generators}, {h, PI, sigmaZPrime,
   hash.updateInteger(Gq.multiply(Gq.modPow(h, sigmaRPrime), Gq.modInverse(Gq.modPow(sigmaZPrime, sigmaCPrime))))
   return Zq.mod(new BigInteger(hash.digest('hex'), 16)).equals(sigmaCPrime)
 }
+
+// todo better name for this function?
+/**
+ * Verifies sigmaAPrime*sigmaBPrime=(g*h)^sigmaRPrime * (g0*sigmaZPrime)^-sigmaCPrime.
+ * @param {IssuerParameters} IP - Issuer parameters.
+ * @param {BigInteger} sigmaAPrime - Sigma a prime.
+ * @param {BigInteger} sigmaBPrime - Sigma b prime.
+ * @param {BigInteger} h - H.
+ * @param {BigInteger} sigmaRPrime - Sigma r prime.
+ * @param {BigInteger} sigmaZPrime - Sigma z prime.
+ * @param {BigInteger} sigmaCPrime - Sigma c prime.
+ * @returns {boolean} True if ok. Otherwise false.
+ */
+exports.verifySigmaABPrime = ({descGq, generators}, sigmaAPrime, sigmaBPrime, h, sigmaRPrime, sigmaZPrime, sigmaCPrime) => {
+  const {Gq} = descGq
+  const right = Gq.multiply(
+    Gq.modPow(Gq.multiply(descGq.g, h), sigmaRPrime),
+    Gq.modInverse(Gq.modPow(Gq.multiply(generators[0], sigmaZPrime), sigmaCPrime))
+  )
+  const left = Gq.multiply(sigmaAPrime, sigmaBPrime)
+  return left.equals(right)
+}

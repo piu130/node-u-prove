@@ -18,7 +18,8 @@ const {
   computeSigmaC,
   computeSigmaR,
   computeSigmaRPrime,
-  verifyTokenSignature
+  verifyTokenSignature,
+  verifySigmaABPrime
 } = require('../src/functions')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
 const {A, e, TI, x, xt, UIDt, gamma, alpha, alphaInverse, sigmaZ, y0, t1, t2, PI, h, sigmaA, sigmaAPrime, sigmaB, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, sigmaRPrime, sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
@@ -103,5 +104,9 @@ describe('functions should', function () {
 
   it('verify token signature', function () {
     expect(verifyTokenSignature(fxtIssuerParameters, fxtUProveToken)).to.equal(true)
+  })
+
+  it('verify sigma a b prime', function () {
+    expect(verifySigmaABPrime(fxtIssuerParameters, sigmaAPrime, sigmaBPrime, h, sigmaRPrime, sigmaZPrime, sigmaCPrime)).to.equal(true)
   })
 })
