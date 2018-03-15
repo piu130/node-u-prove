@@ -22,7 +22,7 @@ exports.descGq = new Subgroup(
  * Domain parameter sed.
  * @type {BigInteger}
  */
-exports.domainParamSeed = new BigInteger('227cc83035ac2c68e6b4e5fe4b59c0a84ae80330f380de03223e378136d76fc0', 16)
+exports.domainParamSeed = '227cc83035ac2c68e6b4e5fe4b59c0a84ae80330f380de03223e378136d76fc0'
 
 /**
  * Generators.
