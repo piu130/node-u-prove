@@ -256,7 +256,7 @@ exports.verifySigmaABPrime = ({descGq, generators}, sigmaAPrime, sigmaBPrime, h,
  * @param {number} index - Index.
  * @returns {BigInteger} Verifiably random element.
  */
-exports.computeVerifiablyRandomElement = ({UIDh, descGq}, context, index) => {
+exports.computeVerifiablyRandomElementSubgroup = ({UIDh, descGq}, context, index) => {
   const {p, q} = descGq
   const e = p.subtract(BigInteger.ONE).divide(q)
   const TWO = new BigInteger('2')
@@ -274,11 +274,11 @@ exports.computeVerifiablyRandomElement = ({UIDh, descGq}, context, index) => {
   return g
 }
 
-/**
- *
- * @param {IssuerParameters} IP
- * @param {string} s
- */
-exports.generteScopeElement = ({UIDh, descGq}, s) => {
-
-}
+// /**
+//  *
+//  * @param {IssuerParameters} IP
+//  * @param {string} s
+//  */
+// exports.generteScopeElement = ({UIDh, descGq}, s) => {
+//
+// }
