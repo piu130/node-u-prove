@@ -41,7 +41,7 @@ describe('functions should', function () {
   })
 
   it('compute token id', function () {
-    expect(computeTokenId(fxtIssuerParameters.UIDh, fxtUProveToken)).to.equal(UIDt)
+    expect(computeTokenId(fxtIssuerParameters, fxtUProveToken)).to.equal(UIDt)
   })
 
   it('compute gamma', function () {

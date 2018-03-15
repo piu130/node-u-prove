@@ -28,10 +28,10 @@ class UProveToken {
 
   /**
    * Computes the token id.
-   * @param {string} UIDh - Hash identifier.
+   * @param {IssuerParameters} IP - Issuer parameters.
    * @returns {string} Token id.
    */
-  computeTokenId (UIDh) {
+  computeTokenId ({UIDh}) {
     return computeTokenId(UIDh, this)
   }
 }
