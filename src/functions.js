@@ -248,3 +248,37 @@ exports.verifySigmaABPrime = ({descGq, generators}, sigmaAPrime, sigmaBPrime, h,
   const left = Gq.multiply(sigmaAPrime, sigmaBPrime)
   return left.equals(right)
 }
+
+/**
+ * Computes a verifiably random element.
+ * @param {IssuerParameters} IP - Issuer parameters.
+ * @param {string} context - Context.
+ * @param {number} index - Index.
+ * @returns {BigInteger} Verifiably random element.
+ */
+exports.computeVerifiablyRandomElement = ({UIDh, descGq}, context, index) => {
+  const {p, q} = descGq
+  const e = p.subtract(BigInteger.ONE).divide(q)
+  const TWO = new BigInteger('2')
+  let count = 0
+  let g = BigInteger.ZERO
+  while (g.compareTo(TWO) < 0) {
+    if (count++ >= 255) throw new Error('Count is not smaller than 255')
+    const hash = new UProveHash(UIDh)
+    hash.updateOctetString(context + '6767656E', true)
+    hash.updateByte(index)
+    hash.updateByte(count)
+    const w = new BigInteger(hash.digest('hex'), 16)
+    g = w.modPow(e, p)
+  }
+  return g
+}
+
+/**
+ *
+ * @param {IssuerParameters} IP
+ * @param {string} s
+ */
+exports.generteScopeElement = ({UIDh, descGq}, s) => {
+
+}

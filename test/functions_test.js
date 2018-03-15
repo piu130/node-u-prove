@@ -19,11 +19,13 @@ const {
   computeSigmaR,
   computeSigmaRPrime,
   verifyTokenSignature,
-  verifySigmaABPrime
+  verifySigmaABPrime,
+  computeVerifiablyRandomElement
 } = require('../src/functions')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
 const {A, e, TI, x, xt, UIDt, gamma, alpha, alphaInverse, sigmaZ, y0, t1, t2, PI, h, sigmaA, sigmaAPrime, sigmaB, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, sigmaRPrime, sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
 const fxtUProveToken = require('./fixtures/uProveToken')
+const {domainParamSeed} = require('../src/L2048N256')
 
 describe('functions should', function () {
   it('compute xt', function () {
@@ -108,5 +110,10 @@ describe('functions should', function () {
 
   it('verify sigma a b prime', function () {
     expect(verifySigmaABPrime(fxtIssuerParameters, sigmaAPrime, sigmaBPrime, h, sigmaRPrime, sigmaZPrime, sigmaCPrime)).to.equal(true)
+  })
+
+  it('hjk', function () {
+    expect(computeVerifiablyRandomElement(fxtIssuerParameters, domainParamSeed, 1).equals(fxtIssuerParameters.generators[1])).to.equal(true)
+    expect(computeVerifiablyRandomElement(fxtIssuerParameters, domainParamSeed, 2).equals(fxtIssuerParameters.generators[2])).to.equal(true)
   })
 })
