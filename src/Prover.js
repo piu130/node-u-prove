@@ -1,3 +1,4 @@
+const Token = require('./UProveToken')
 const {
   computeXt,
   computeX,
@@ -10,7 +11,9 @@ const {
   computeSigmaAPrime,
   computeSigmaBPrime,
   computeSigmaCPrime,
-  computeSigmaC
+  computeSigmaC,
+  computeSigmaRPrime,
+  verifySigmaABPrime
 } = require('./functions')
 
 /**
@@ -74,6 +77,23 @@ class Prover {
    */
   parseThirdMessage ({sigmaR}) {
     this.sigmaR = sigmaR
+  }
+
+  /**
+   * Generates the token.
+   * @returns {UProveToken} Token.
+   */
+  generateUProveToken () {
+    const sigmaRPrime = computeSigmaRPrime(this.IP.descGq, this.sigmaR, this.beta2)
+    if (
+      !verifySigmaABPrime(this.IP, this.sigmaAPrime, this.sigmaBPrime, this.h, sigmaRPrime, this.sigmaZPrime, this.sigmaCPrime)
+    ) throw new Error('Cannot verify sigma r prime')
+    // todo delete this.beta0???
+    delete this.beta1
+    delete this.beta2
+    delete this.t1
+    delete this.t2
+    return new Token(this.IP.UIDp, this.h, this.TI, this.PI, this.sigmaZPrime, this.sigmaCPrime, sigmaRPrime, this.IP.d)
   }
 }
 
