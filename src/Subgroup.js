@@ -1,4 +1,5 @@
 const {BigInteger} = require('jsbn')
+const {computeVerifiablyRandomElementSubgroup} = require('./functions')
 const IntegerGroup = require('./IntegerGroup')
 
 /**
@@ -27,6 +28,17 @@ class Subgroup {
    */
   get identityElement () {
     return this.Gq.createFromBigInteger(BigInteger.ONE)
+  }
+
+  /**
+   * Computes a verifiably random element.
+   * @param {string} UIDh - Hash identifier.
+   * @param {string} context - Context.
+   * @param {number} index - Index.
+   * @returns {BigInteger} Verifiably random element.
+   */
+  computeVerifiablyRandomElement (UIDh, context, index) {
+    return computeVerifiablyRandomElementSubgroup({UIDh, descGq: this}, context, index)
   }
 
   /**
