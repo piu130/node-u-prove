@@ -7,9 +7,9 @@ const {Buffer} = require('buffer')
 class UProveHash {
   /**
    * Constructor.
-   * @param {string} [algorithm=UProveHash.defaultHash] - See crypto.createHash from NodeJS.
+   * @param {string} algorithm - See crypto.createHash from NodeJS.
    */
-  constructor (algorithm = UProveHash.defaultHash) {
+  constructor (algorithm) {
     this._hash = crypto.createHash(algorithm)
     this._len4 = Buffer.allocUnsafe(4)
     this._len1 = this._len4.slice(0, 1)
@@ -47,12 +47,12 @@ class UProveHash {
   /**
    * Updates an octet string.
    * @param {string} octetString - Octet string.
+   * @param {boolean} [raw=false] - If true the string is not formatted (meaning no length prepending).
    * @returns {void} Nothing.
    */
-  updateOctetString (octetString) {
-    const len = octetString.length / 2
-    if (!Number.isInteger(len)) octetString = '0' + octetString
-    this.updateUInt32(Math.ceil(len))
+  updateOctetString (octetString, raw = false) {
+    if (!Number.isInteger(octetString.length / 2)) octetString = '0' + octetString
+    if (!raw) this.updateUInt32(octetString.length / 2)
     this._hash.update(Buffer.from(octetString, 'hex'))
   }
 
