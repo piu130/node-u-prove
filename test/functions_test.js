@@ -49,15 +49,15 @@ describe('functions should', function () {
   })
 
   it('compute sigma z', function () {
-    expect(computeSigmaZ(fxtIssuerParameters.descGq, gamma, y0).equals(sigmaZ)).to.equal(true)
+    expect(computeSigmaZ(fxtIssuerParameters, gamma, y0).equals(sigmaZ)).to.equal(true)
   })
 
   it('compute h', function () {
-    expect(computeH(fxtIssuerParameters.descGq, gamma, alpha).equals(h)).to.equal(true)
+    expect(computeH(fxtIssuerParameters, gamma, alpha).equals(h)).to.equal(true)
   })
 
   it('compute sigma z prime', function () {
-    expect(computeSigmaZPrime(fxtIssuerParameters.descGq, sigmaZ, alpha).equals(sigmaZPrime)).to.equal(true)
+    expect(computeSigmaZPrime(fxtIssuerParameters, sigmaZ, alpha).equals(sigmaZPrime)).to.equal(true)
   })
 
   it('compute t1', function () {
@@ -65,19 +65,19 @@ describe('functions should', function () {
   })
 
   it('compute t2', function () {
-    expect(computeT2(fxtIssuerParameters.descGq, h, beta2).equals(t2)).to.equal(true)
+    expect(computeT2(fxtIssuerParameters, h, beta2).equals(t2)).to.equal(true)
   })
 
   it('compute alpha inverse', function () {
-    expect(computeAlphaInverse(fxtIssuerParameters.descGq, alpha).equals(alphaInverse)).to.equal(true)
+    expect(computeAlphaInverse(fxtIssuerParameters, alpha).equals(alphaInverse)).to.equal(true)
   })
 
   it('compute sigma a prime', function () {
-    expect(computeSigmaAPrime(fxtIssuerParameters.descGq, t1, sigmaA).equals(sigmaAPrime)).to.equal(true)
+    expect(computeSigmaAPrime(fxtIssuerParameters, t1, sigmaA).equals(sigmaAPrime)).to.equal(true)
   })
 
   it('compute sigma b prime', function () {
-    expect(computeSigmaBPrime(fxtIssuerParameters.descGq, sigmaZPrime, beta1, t2, sigmaB, alpha).equals(sigmaBPrime)).to.equal(true)
+    expect(computeSigmaBPrime(fxtIssuerParameters, sigmaZPrime, beta1, t2, sigmaB, alpha).equals(sigmaBPrime)).to.equal(true)
   })
 
   it('compute sigma c prime', function () {
@@ -85,23 +85,23 @@ describe('functions should', function () {
   })
 
   it('compute sigma a', function () {
-    expect(computeSigmaA(fxtIssuerParameters.descGq, w).equals(sigmaA)).to.equal(true)
+    expect(computeSigmaA(fxtIssuerParameters, w).equals(sigmaA)).to.equal(true)
   })
 
   it('compute sigma b', function () {
-    expect(computeSigmaB(fxtIssuerParameters.descGq, gamma, w).equals(sigmaB)).to.equal(true)
+    expect(computeSigmaB(fxtIssuerParameters, gamma, w).equals(sigmaB)).to.equal(true)
   })
 
   it('compute sigma c', function () {
-    expect(computeSigmaC(fxtIssuerParameters.descGq, sigmaCPrime, beta1).equals(sigmaC)).to.equal(true)
+    expect(computeSigmaC(fxtIssuerParameters, sigmaCPrime, beta1).equals(sigmaC)).to.equal(true)
   })
 
   it('compute sigma r', function () {
-    expect(computeSigmaR(fxtIssuerParameters.descGq, sigmaC, y0, w).equals(sigmaR)).to.equal(true)
+    expect(computeSigmaR(fxtIssuerParameters, sigmaC, y0, w).equals(sigmaR)).to.equal(true)
   })
 
   it('compute sigma r prime', function () {
-    expect(computeSigmaRPrime(fxtIssuerParameters.descGq, sigmaR, beta2).equals(sigmaRPrime)).to.equal(true)
+    expect(computeSigmaRPrime(fxtIssuerParameters, sigmaR, beta2).equals(sigmaRPrime)).to.equal(true)
   })
 
   it('verify token signature', function () {

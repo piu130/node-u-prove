@@ -56,16 +56,16 @@ class Prover {
     this.alpha = this.IP.descGq.Zq.randomNumber(false)
     this.beta1 = this.IP.descGq.Zq.randomNumber()
     this.beta2 = this.IP.descGq.Zq.randomNumber()
-    this.h = computeH(this.IP.descGq, this.gamma, this.alpha)
+    this.h = computeH(this.IP, this.gamma, this.alpha)
     this.t1 = computeT1(this.IP, this.beta1, this.beta2)
-    this.t2 = computeT2(this.IP.descGq, this.h, this.beta2)
-    this.alphaInverse = computeAlphaInverse(this.IP.descGq, this.alpha)
+    this.t2 = computeT2(this.IP, this.h, this.beta2)
+    this.alphaInverse = computeAlphaInverse(this.IP, this.alpha)
 
-    this.sigmaZPrime = computeSigmaZPrime(this.IP.descGq, this.sigmaZ, this.alpha)
-    this.sigmaAPrime = computeSigmaAPrime(this.IP.descGq, this.t1, this.sigmaA)
-    this.sigmaBPrime = computeSigmaBPrime(this.IP.descGq, this.sigmaZPrime, this.beta1, this.t2, this.sigmaB, this.alpha)
+    this.sigmaZPrime = computeSigmaZPrime(this.IP, this.sigmaZ, this.alpha)
+    this.sigmaAPrime = computeSigmaAPrime(this.IP, this.t1, this.sigmaA)
+    this.sigmaBPrime = computeSigmaBPrime(this.IP, this.sigmaZPrime, this.beta1, this.t2, this.sigmaB, this.alpha)
     this.sigmaCPrime = computeSigmaCPrime(this.IP, this.h, this.PI, this.sigmaZPrime, this.sigmaAPrime, this.sigmaBPrime)
-    const sigmaC = computeSigmaC(this.IP.descGq, this.sigmaCPrime, this.beta1)
+    const sigmaC = computeSigmaC(this.IP, this.sigmaCPrime, this.beta1)
 
     return {sigmaC}
   }
@@ -84,7 +84,7 @@ class Prover {
    * @returns {UProveToken} Token.
    */
   generateUProveToken () {
-    const sigmaRPrime = computeSigmaRPrime(this.IP.descGq, this.sigmaR, this.beta2)
+    const sigmaRPrime = computeSigmaRPrime(this.IP, this.sigmaR, this.beta2)
     if (
       !verifySigmaABPrime(this.IP, this.sigmaAPrime, this.sigmaBPrime, this.h, sigmaRPrime, this.sigmaZPrime, this.sigmaCPrime)
     ) throw new Error('Cannot verify sigma r prime')

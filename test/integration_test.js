@@ -1,6 +1,6 @@
 const {expect} = require('chai')
 const fxtIssuerParameters = require('./fixtures/issuerParameters')
-const {A, TI, UIDt, gamma, alpha, alphaInverse, sigmaZ, y0, t1, t2, PI, h, sigmaA, sigmaAPrime, sigmaB, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, sigmaRPrime, sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
+const {A, TI, /* UIDt, */ gamma, alpha, alphaInverse, sigmaZ, y0, /* t1, t2, */ PI, h, sigmaA, sigmaAPrime, sigmaB, sigmaBPrime, sigmaZPrime, sigmaC, sigmaR, /* sigmaRPrime, */ sigmaCPrime, beta1, beta2, w} = require('./fixtures/data')
 const fxtUProveToken = require('./fixtures/uProveToken')
 const Issuer = require('../src/Issuer')
 const Prover = require('../src/Prover')
