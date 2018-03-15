@@ -112,7 +112,7 @@ describe('functions should', function () {
     expect(verifySigmaABPrime(fxtIssuerParameters, sigmaAPrime, sigmaBPrime, h, sigmaRPrime, sigmaZPrime, sigmaCPrime)).to.equal(true)
   })
 
-  it('hjk', function () {
+  it('compute verifiably random element', function () {
     expect(computeVerifiablyRandomElement(fxtIssuerParameters, domainParamSeed, 1).equals(fxtIssuerParameters.generators[1])).to.equal(true)
     expect(computeVerifiablyRandomElement(fxtIssuerParameters, domainParamSeed, 2).equals(fxtIssuerParameters.generators[2])).to.equal(true)
   })
