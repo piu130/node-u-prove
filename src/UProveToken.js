@@ -1,3 +1,5 @@
+const {computeTokenId} = require('./functions')
+
 /**
  * Constructs a new token.
  */
@@ -22,6 +24,15 @@ class UProveToken {
     this.sigmaCPrime = sigmaCPrime
     this.sigmaRPrime = sigmaRPrime
     this.d = d
+  }
+
+  /**
+   * Computes the token id.
+   * @param {string} UIDh - Hash identifier.
+   * @returns {string} Token id.
+   */
+  computeTokenId (UIDh) {
+    return computeTokenId(UIDh, this)
   }
 }
 
