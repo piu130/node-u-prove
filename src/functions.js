@@ -35,11 +35,11 @@ exports.computeX = ({descGq, UIDh}, e, A) => {
 
 /**
  * Computes token id.
- * @param {string} [UIDh=UProveHash.defaultHash] - Hash type.
+ * @param {string} UIDh - Hash type.
  * @param {UProveToken} token - UProveToken.
- * @returns {string} Xi.
+ * @returns {string} Token id.
  */
-exports.computeTokenId = (UIDh = UProveHash.defaultHash, token) => {
+exports.computeTokenId = (UIDh, token) => {
   const hash = new UProveHash(UIDh)
   hash.updateInteger(token.h)
   hash.updateInteger(token.sigmaZPrime)
